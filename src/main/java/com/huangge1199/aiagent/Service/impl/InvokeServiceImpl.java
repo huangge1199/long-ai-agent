@@ -1,18 +1,17 @@
-package com.huangge1199.aiagent.demo.invoke;
+package com.huangge1199.aiagent.Service.impl;
 
 import java.util.Arrays;
-import java.lang.System;
+
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationParam;
 import com.alibaba.dashscope.aigc.generation.GenerationResult;
 import com.alibaba.dashscope.common.Message;
 import com.alibaba.dashscope.common.Role;
-import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
-import com.alibaba.dashscope.utils.JsonUtils;
+import com.huangge1199.aiagent.Service.InvokeService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * SdkAiInvoke
@@ -20,13 +19,14 @@ import org.springframework.stereotype.Component;
  * @author huangge1199
  * @since 2025/5/14 12:27:47
  */
-@Component
-public class SdkAiInvoke {
+@Service
+public class InvokeServiceImpl implements InvokeService {
 
     @Value("${bailian.API-KEY}")
     private String baiLianKey;
 
-    public GenerationResult callWithMessage() throws ApiException, NoApiKeyException, InputRequiredException {
+    @Override
+    public GenerationResult callWithMessage() throws NoApiKeyException, InputRequiredException {
         Generation gen = new Generation();
         Message systemMsg = Message.builder()
                 .role(Role.SYSTEM.getValue())

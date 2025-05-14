@@ -5,8 +5,8 @@ import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.alibaba.dashscope.utils.JsonUtils;
+import com.huangge1199.aiagent.Service.InvokeService;
 import com.huangge1199.aiagent.common.R;
-import com.huangge1199.aiagent.demo.invoke.SdkAiInvoke;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -26,13 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class InvokeController {
 
     @Resource
-    private SdkAiInvoke sdkAiInvoke;
+    private InvokeService invokeService;
 
     @PostMapping("/sdk")
     @Operation(summary = "sdk接入")
     public R<String> sdkAiInvoke() {
         try {
-            GenerationResult result = sdkAiInvoke.callWithMessage();
+            GenerationResult result = invokeService.callWithMessage();
             return R.ok(JsonUtils.toJson(result));
         } catch (ApiException | NoApiKeyException | InputRequiredException e) {
             return R.fail(e.getMessage());
