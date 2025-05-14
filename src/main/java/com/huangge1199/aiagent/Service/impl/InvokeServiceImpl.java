@@ -2,6 +2,9 @@ package com.huangge1199.aiagent.Service.impl;
 
 import java.util.Arrays;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONObject;
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationParam;
 import com.alibaba.dashscope.aigc.generation.GenerationResult;
@@ -14,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * SdkAiInvoke
+ * InvokeServiceImpl
  *
  * @author huangge1199
  * @since 2025/5/14 12:27:47
@@ -45,5 +48,47 @@ public class InvokeServiceImpl implements InvokeService {
                 .resultFormat(GenerationParam.ResultFormat.MESSAGE)
                 .build();
         return gen.call(param);
+    }
+
+    @Override
+    public String getMsgByHttp(String question) {
+        // API URL
+        String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation";
+
+        // 构造请求数据
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("model", "qwen-plus");
+
+        // 构建 messages 数组
+        JSONObject systemMessage = new JSONObject();
+        systemMessage.put("role", "system");
+        systemMessage.put("content", "You are a helpful assistant.");
+
+        JSONObject userMessage = new JSONObject();
+        userMessage.put("role", "user");
+        userMessage.put("content", question);
+
+        // 将 messages 数组放入 input 对象
+        JSONObject input = new JSONObject();
+        input.put("messages", new Object[]{systemMessage, userMessage});
+        requestBody.put("input", input);
+
+        // 构建 parameters 对象
+        JSONObject parameters = new JSONObject();
+        parameters.put("result_format", "message");
+        requestBody.put("parameters", parameters);
+
+        // 将请求体转换为字符串
+        String jsonData = requestBody.toString();
+
+        // 发送请求
+        HttpResponse response = HttpRequest.post(url)
+                .header("Authorization", "Bearer " + baiLianKey)
+                .header("Content-Type", "application/json")
+                .body(jsonData)
+                .execute();
+
+        // 获取响应内容
+        return response.body();
     }
 }

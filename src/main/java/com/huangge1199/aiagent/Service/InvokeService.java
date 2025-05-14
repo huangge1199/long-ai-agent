@@ -12,4 +12,6 @@ import com.alibaba.dashscope.exception.NoApiKeyException;
  */
 public interface InvokeService {
     GenerationResult callWithMessage() throws NoApiKeyException, InputRequiredException;
+
+    String getMsgByHttp(String question);
 }

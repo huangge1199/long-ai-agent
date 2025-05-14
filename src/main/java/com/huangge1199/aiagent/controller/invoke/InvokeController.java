@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +36,17 @@ public class InvokeController {
             GenerationResult result = invokeService.callWithMessage();
             return R.ok(JsonUtils.toJson(result));
         } catch (ApiException | NoApiKeyException | InputRequiredException e) {
+            return R.fail(e.getMessage());
+        }
+    }
+
+    @PostMapping("/http")
+    @Operation(summary = "http接入")
+    public R<String> httpAiInvoke(@RequestBody String question) {
+        try {
+            String result = invokeService.getMsgByHttp(question);
+            return R.ok(result);
+        } catch (ApiException e) {
             return R.fail(e.getMessage());
         }
     }
