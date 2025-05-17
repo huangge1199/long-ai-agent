@@ -18,6 +18,7 @@ import jakarta.annotation.Resource;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,11 @@ public class InvokeServiceImpl implements InvokeService {
     private String baiLianKey;
 
     @Resource
+    @Qualifier("dashscopeChatModel")
     private DashScopeChatModel dashscopeChatModel;
 
     @Resource
+    @Qualifier("ollamaChatModel")
     private OllamaChatModel ollamaChatModel;
 
     @Override
