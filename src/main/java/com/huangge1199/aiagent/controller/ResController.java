@@ -4,6 +4,7 @@ import com.huangge1199.aiagent.common.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +32,19 @@ public class ResController {
     record ActorFilms(String actor, List<String> movies) {
     }
 
+    @PostMapping("/chatRes")
+    @Operation(summary = "返回 ChatResponse")
+    public R<ChatResponse> chatResRes(@RequestBody String question) {
+        ChatResponse chatResponse = chatClient.prompt()
+                .user(question)
+                .call()
+                .chatResponse();
+        return R.ok(chatResponse);
+    }
+
     @PostMapping("/entity")
     @Operation(summary = "实体返回")
-    public R<ActorFilms> entityRes(@RequestBody String question ) {
+    public R<ActorFilms> entityRes(@RequestBody String question) {
         ActorFilms actorFilms = chatClient.prompt()
                 .user(question)
                 .call()
