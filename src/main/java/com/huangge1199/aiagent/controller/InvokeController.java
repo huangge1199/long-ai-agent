@@ -1,11 +1,9 @@
-package com.huangge1199.aiagent.controller.invoke;
+package com.huangge1199.aiagent.controller;
 
 import cn.hutool.json.JSONObject;
-import com.alibaba.dashscope.aigc.generation.GenerationResult;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
-import com.alibaba.dashscope.utils.JsonUtils;
 import com.huangge1199.aiagent.Service.InvokeService;
 import com.huangge1199.aiagent.common.R;
 import io.swagger.v3.oas.annotations.Operation;
