@@ -5,14 +5,18 @@ import java.util.Arrays;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationParam;
-import com.alibaba.dashscope.aigc.generation.GenerationResult;
 import com.alibaba.dashscope.common.Message;
 import com.alibaba.dashscope.common.Role;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.huangge1199.aiagent.Service.InvokeService;
+import jakarta.annotation.Resource;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +32,11 @@ public class InvokeServiceImpl implements InvokeService {
     @Value("${bailian.API-KEY}")
     private String baiLianKey;
 
+    @Resource
+    private ChatModel dashscopeChatModel;
+
     @Override
-    public GenerationResult callWithMessage() throws NoApiKeyException, InputRequiredException {
+    public JSONObject callWithMessage(String question) throws NoApiKeyException, InputRequiredException {
         Generation gen = new Generation();
         Message systemMsg = Message.builder()
                 .role(Role.SYSTEM.getValue())
@@ -37,7 +44,7 @@ public class InvokeServiceImpl implements InvokeService {
                 .build();
         Message userMsg = Message.builder()
                 .role(Role.USER.getValue())
-                .content("你是谁？")
+                .content(question)
                 .build();
         GenerationParam param = GenerationParam.builder()
                 // 若没有配置环境变量，请用百炼API Key将下行替换为：.apiKey("sk-xxx")
@@ -47,11 +54,11 @@ public class InvokeServiceImpl implements InvokeService {
                 .messages(Arrays.asList(systemMsg, userMsg))
                 .resultFormat(GenerationParam.ResultFormat.MESSAGE)
                 .build();
-        return gen.call(param);
+        return JSONUtil.parseObj(gen.call(param));
     }
 
     @Override
-    public String getMsgByHttp(String question) {
+    public JSONObject getMsgByHttp(String question) {
         // API URL
         String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation";
 
@@ -89,6 +96,14 @@ public class InvokeServiceImpl implements InvokeService {
                 .execute();
 
         // 获取响应内容
-        return response.body();
+        return JSONUtil.parseObj(response.body());
+    }
+
+    @Override
+        public String getMsgBySpringAi(String question) {
+        AssistantMessage output = dashscopeChatModel.call(new Prompt(question))
+                .getResult()
+                .getOutput();
+        return output.getText();
     }
 }

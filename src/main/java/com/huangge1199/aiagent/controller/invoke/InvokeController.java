@@ -1,5 +1,6 @@
 package com.huangge1199.aiagent.controller.invoke;
 
+import cn.hutool.json.JSONObject;
 import com.alibaba.dashscope.aigc.generation.GenerationResult;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
@@ -31,10 +32,10 @@ public class InvokeController {
 
     @PostMapping("/sdk")
     @Operation(summary = "sdk接入")
-    public R<String> sdkAiInvoke() {
+    public R<JSONObject> sdkAiInvoke(@RequestBody String question) {
         try {
-            GenerationResult result = invokeService.callWithMessage();
-            return R.ok(JsonUtils.toJson(result));
+            JSONObject result = invokeService.callWithMessage(question);
+            return R.ok(result);
         } catch (ApiException | NoApiKeyException | InputRequiredException e) {
             return R.fail(e.getMessage());
         }
@@ -42,9 +43,20 @@ public class InvokeController {
 
     @PostMapping("/http")
     @Operation(summary = "http接入")
-    public R<String> httpAiInvoke(@RequestBody String question) {
+    public R<JSONObject> httpAiInvoke(@RequestBody String question) {
         try {
-            String result = invokeService.getMsgByHttp(question);
+            JSONObject result = invokeService.getMsgByHttp(question);
+            return R.ok(result);
+        } catch (ApiException e) {
+            return R.fail(e.getMessage());
+        }
+    }
+
+    @PostMapping("/springAi")
+    @Operation(summary = "spring ai 接入")
+    public R<String> springAiInvoke(@RequestBody String question) {
+        try {
+            String result = invokeService.getMsgBySpringAi(question);
             return R.ok(result);
         } catch (ApiException e) {
             return R.fail(e.getMessage());

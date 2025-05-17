@@ -1,5 +1,6 @@
 package com.huangge1199.aiagent.Service;
 
+import cn.hutool.json.JSONObject;
 import com.alibaba.dashscope.aigc.generation.GenerationResult;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
@@ -11,7 +12,9 @@ import com.alibaba.dashscope.exception.NoApiKeyException;
  * @since 2025/5/14 13:27:08
  */
 public interface InvokeService {
-    GenerationResult callWithMessage() throws NoApiKeyException, InputRequiredException;
+    JSONObject callWithMessage(String question) throws NoApiKeyException, InputRequiredException;
 
-    String getMsgByHttp(String question);
+    JSONObject getMsgByHttp(String question);
+
+    String getMsgBySpringAi(String question);
 }
