@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/res")
 @Tag(name = "ChatClient返回响应")
-public class ResControlle {
+public class ResController {
 
     private final ChatClient chatClient;
 
-    public ResControlle(ChatClient.Builder builder) {
+    public ResController(ChatClient.Builder builder) {
         this.chatClient = builder.build();
     }
 
