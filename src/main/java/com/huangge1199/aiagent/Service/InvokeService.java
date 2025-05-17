@@ -17,4 +17,6 @@ public interface InvokeService {
     JSONObject getMsgByHttp(String question);
 
     String getMsgBySpringAi(String question);
+
+    String getMsgBySpringAiOllam(String question);
 }

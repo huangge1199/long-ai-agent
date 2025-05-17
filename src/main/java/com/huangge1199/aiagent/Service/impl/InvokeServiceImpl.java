@@ -6,6 +6,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationParam;
 import com.alibaba.dashscope.common.Message;
@@ -15,8 +16,8 @@ import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.huangge1199.aiagent.Service.InvokeService;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.messages.AssistantMessage;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,10 @@ public class InvokeServiceImpl implements InvokeService {
     private String baiLianKey;
 
     @Resource
-    private ChatModel dashscopeChatModel;
+    private DashScopeChatModel dashscopeChatModel;
+
+    @Resource
+    private OllamaChatModel ollamaChatModel;
 
     @Override
     public JSONObject callWithMessage(String question) throws NoApiKeyException, InputRequiredException {
@@ -102,6 +106,14 @@ public class InvokeServiceImpl implements InvokeService {
     @Override
         public String getMsgBySpringAi(String question) {
         AssistantMessage output = dashscopeChatModel.call(new Prompt(question))
+                .getResult()
+                .getOutput();
+        return output.getText();
+    }
+
+    @Override
+    public String getMsgBySpringAiOllam(String question) {
+        AssistantMessage output = ollamaChatModel.call(new Prompt(question))
                 .getResult()
                 .getOutput();
         return output.getText();

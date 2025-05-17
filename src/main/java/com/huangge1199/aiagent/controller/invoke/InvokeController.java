@@ -62,4 +62,15 @@ public class InvokeController {
             return R.fail(e.getMessage());
         }
     }
+
+    @PostMapping("/ollama")
+    @Operation(summary = "spring ai 引入 ollama")
+    public R<String> ollamaInvoke(@RequestBody String question) {
+        try {
+            String result = invokeService.getMsgBySpringAiOllam(question);
+            return R.ok(result);
+        } catch (ApiException e) {
+            return R.fail(e.getMessage());
+        }
+    }
 }
