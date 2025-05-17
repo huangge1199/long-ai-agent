@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025/5/14 12:56:17
  */
 @RestController
-@RequestMapping("/mbgk/data")
+@RequestMapping("/invoke")
 @Tag(name = "AI大模型接入")
 public class InvokeController {
 
