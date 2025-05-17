@@ -75,4 +75,14 @@ public class ResController {
                 .content();
         return R.ok(output);
     }
+
+    @PostMapping("/fluxChatRes")
+    @Operation(summary = "流式响应：返回ChatResponse")
+    public R<Flux<ChatResponse>> fluxChatRes(@RequestBody String question) {
+        Flux<ChatResponse> output = chatClient.prompt()
+                .user(question)
+                .stream()
+                .chatResponse();
+        return R.ok(output);
+    }
 }
