@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -62,5 +63,16 @@ public class ResController {
                 .entity(new ParameterizedTypeReference<List<ActorFilms>>() {
                 });
         return R.ok(actorFilms);
+    }
+
+
+    @PostMapping("/fluxRes")
+    @Operation(summary = "流式响应：适用于打字机效果")
+    public R<Flux<String>> fluxRes(@RequestBody String question) {
+        Flux<String> output = chatClient.prompt()
+                .user(question)
+                .stream()
+                .content();
+        return R.ok(output);
     }
 }
