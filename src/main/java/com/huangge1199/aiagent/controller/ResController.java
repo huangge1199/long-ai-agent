@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +44,23 @@ public class ResController {
     }
 
     @PostMapping("/entity")
-    @Operation(summary = "实体返回")
+    @Operation(summary = "返回实体-单个实体")
     public R<ActorFilms> entityRes(@RequestBody String question) {
         ActorFilms actorFilms = chatClient.prompt()
                 .user(question)
                 .call()
                 .entity(ActorFilms.class);
+        return R.ok(actorFilms);
+    }
+
+    @PostMapping("/actorFilmsRes")
+    @Operation(summary = "返回实体-泛型")
+    public R<List<ActorFilms>> actorFilmsRes(@RequestBody String question) {
+        List<ActorFilms> actorFilms = chatClient.prompt()
+                .user(question)
+                .call()
+                .entity(new ParameterizedTypeReference<List<ActorFilms>>() {
+                });
         return R.ok(actorFilms);
     }
 }
