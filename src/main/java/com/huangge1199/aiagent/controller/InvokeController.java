@@ -71,4 +71,10 @@ public class InvokeController {
             return R.fail(e.getMessage());
         }
     }
+
+    @PostMapping("/moreMessages")
+    @Operation(summary = "多轮对话")
+    public void moreMessages() {
+        invokeService.moreMessages();
+    }
 }

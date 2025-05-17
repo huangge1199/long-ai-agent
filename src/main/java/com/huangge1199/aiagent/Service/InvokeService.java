@@ -19,4 +19,6 @@ public interface InvokeService {
     String getMsgBySpringAi(String question);
 
     String getMsgBySpringAiOllam(String question);
+
+    void moreMessages();
 }

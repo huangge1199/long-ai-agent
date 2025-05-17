@@ -11,7 +11,7 @@ spring:
     ollama:
       base-url: http://192.168.188.2:11435
       chat:
-        model: gemma3:1b
+        model: DeepSeek-R1-Distill-Qwen-1.5B:latest
 server:
   port: 8123
   servlet:
@@ -33,3 +33,12 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG

@@ -1,6 +1,8 @@
 package com.huangge1199.aiagent.Service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -16,6 +18,9 @@ import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.huangge1199.aiagent.Service.InvokeService;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -120,5 +125,43 @@ public class InvokeServiceImpl implements InvokeService {
                 .getResult()
                 .getOutput();
         return output.getText();
+    }
+
+    @Override
+    public void moreMessages() {
+
+        List<org.springframework.ai.chat.messages.Message> messages = new ArrayList<>();
+
+        //第零轮对话
+        messages.add(new SystemMessage("你是一个旅游规划师"));
+        messages.add(new UserMessage("你是谁？"));
+        ChatResponse response = ollamaChatModel.call(new Prompt(messages));
+        String content = response.getResult().getOutput().getText();
+        System.out.printf("第零轮: %s\n", content);
+
+        messages.add(new AssistantMessage(content));
+
+        //第一轮对话
+        messages.add(new UserMessage("我想去新疆"));
+        response = ollamaChatModel.call(new Prompt(messages));
+        content = response.getResult().getOutput().getText();
+        System.out.printf("第一轮: %s\n", content);
+
+        messages.add(new AssistantMessage(content));
+
+        //第二轮对话
+        messages.add(new UserMessage("能帮我推荐一些旅游景点吗?"));
+        response = ollamaChatModel.call(new Prompt(messages));
+        content = response.getResult().getOutput().getText();
+        System.out.printf("第二轮: %s\n", content);
+
+        messages.add(new AssistantMessage(content));
+
+        //第三轮对话
+        messages.add(new UserMessage("那里这两天的天气如何?"));
+        response = ollamaChatModel.call(new Prompt(messages));
+        content = response.getResult().getOutput().getText();
+
+        System.out.printf("第三轮: %s\n", content);
     }
 }
