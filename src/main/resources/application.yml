@@ -11,7 +11,7 @@ spring:
     ollama:
       base-url: http://192.168.188.2:11435
       chat:
-        model: DeepSeek-R1-Distill-Qwen-1.5B:latest
+        model: gemma3:1b
 server:
   port: 8123
   servlet:
