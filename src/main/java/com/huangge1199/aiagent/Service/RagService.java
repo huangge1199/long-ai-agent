@@ -14,4 +14,6 @@ public interface RagService {
     String localDoc(String question);
 
     List<Query> getMultiQueryExpand(String question);
+
+    String queryRewrite(String question);
 }

@@ -40,4 +40,11 @@ public class RagController {
         List<Query> queryList = ragService.getMultiQueryExpand(question);
         return R.ok(queryList);
     }
+
+    @PostMapping("/queryRewrite")
+    @Operation(summary = "查询重写")
+    public R<String> queryRewrite(@RequestBody String question) {
+        String queryList = ragService.queryRewrite(question);
+        return R.ok(queryList);
+    }
 }

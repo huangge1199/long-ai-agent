@@ -9,6 +9,8 @@ import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.rag.Query;
 import org.springframework.ai.rag.preretrieval.query.expansion.MultiQueryExpander;
+import org.springframework.ai.rag.preretrieval.query.transformation.QueryTransformer;
+import org.springframework.ai.rag.preretrieval.query.transformation.RewriteQueryTransformer;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +65,22 @@ public class RagServiceImpl implements RagService {
                 // 生成3个查询变体
                 .numberOfQueries(4)
                 .build();
-        List<Query> queries = queryExpander.expand(new Query(question));
-        return queries;
+        return queryExpander.expand(new Query(question));
+    }
+
+    @Override
+    public String queryRewrite(String question) {
+        ChatClient.Builder builder = ChatClient.builder(ollamaChatModel);
+        // 创建一个模拟用户学习AI的查询场景
+        Query query = new Query(question);
+
+        // 创建查询重写转换器
+        QueryTransformer queryTransformer = RewriteQueryTransformer.builder()
+                .chatClientBuilder(builder)
+                .build();
+
+        // 执行查询重写
+        Query transformedQuery = queryTransformer.transform(query);
+        return transformedQuery.text();
     }
 }
