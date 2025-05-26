@@ -47,4 +47,18 @@ public class RagController {
         String queryList = ragService.queryRewrite(question);
         return R.ok(queryList);
     }
+
+    @PostMapping("/queryTranslation")
+    @Operation(summary = "查询翻译")
+    public R<String> queryTranslation(@RequestBody String question) {
+        String queryList = ragService.queryTranslation(question);
+        return R.ok(queryList);
+    }
+
+    @PostMapping("/contextAwareQueries")
+    @Operation(summary = "上下文感知查询")
+    public R<String> contextAwareQueries(@RequestBody String question) {
+        String queryList = ragService.contextAwareQueries(question);
+        return R.ok(queryList);
+    }
 }

@@ -16,4 +16,8 @@ public interface RagService {
     List<Query> getMultiQueryExpand(String question);
 
     String queryRewrite(String question);
+
+    String queryTranslation(String question);
+
+    String contextAwareQueries(String question);
 }
