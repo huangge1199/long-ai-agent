@@ -61,4 +61,18 @@ public class RagController {
         String queryList = ragService.contextAwareQueries(question);
         return R.ok(queryList);
     }
+
+    @PostMapping("/baseAdvisor")
+    @Operation(summary = "检索增强顾问：基础用法")
+    public R<String> baseAdvisor(@RequestBody String question) {
+        String queryList = ragService.baseAdvisor(question);
+        return R.ok(queryList);
+    }
+
+    @PostMapping("/advancedAdvisor")
+    @Operation(summary = "检索增强顾问：高级用法")
+    public R<String> advancedAdvisor(@RequestBody String question) {
+        String queryList = ragService.advancedAdvisor(question);
+        return R.ok(queryList);
+    }
 }

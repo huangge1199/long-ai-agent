@@ -20,4 +20,8 @@ public interface RagService {
     String queryTranslation(String question);
 
     String contextAwareQueries(String question);
+
+    String baseAdvisor(String question);
+
+    String advancedAdvisor(String question);
 }
