@@ -75,4 +75,11 @@ public class RagController {
         String queryList = ragService.advancedAdvisor(question);
         return R.ok(queryList);
     }
+
+    @PostMapping("/documentSelection")
+    @Operation(summary = "文档选择")
+    public R<String> documentSelection() {
+        String queryList = ragService.documentSelection();
+        return R.ok(queryList);
+    }
 }
