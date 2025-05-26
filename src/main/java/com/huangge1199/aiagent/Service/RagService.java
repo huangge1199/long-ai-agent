@@ -1,5 +1,9 @@
 package com.huangge1199.aiagent.Service;
 
+import org.springframework.ai.rag.Query;
+
+import java.util.List;
+
 /**
  * RagService
  *
@@ -8,4 +12,6 @@ package com.huangge1199.aiagent.Service;
  */
 public interface RagService {
     String localDoc(String question);
+
+    List<Query> getMultiQueryExpand(String question);
 }

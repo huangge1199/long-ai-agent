@@ -5,12 +5,13 @@ import com.huangge1199.aiagent.common.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.ai.rag.Query;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
+import java.util.List;
 
 /**
  * RagController
@@ -31,5 +32,12 @@ public class RagController {
     public R<String> localDoc(@RequestBody String question) {
         String res = ragService.localDoc(question);
         return R.ok(res);
+    }
+
+    @PostMapping("/getMultiQueryExpand")
+    @Operation(summary = "多查询扩展")
+    public R<List<Query>> getMultiQueryExpand(@RequestBody String question) {
+        List<Query> queryList = ragService.getMultiQueryExpand(question);
+        return R.ok(queryList);
     }
 }
