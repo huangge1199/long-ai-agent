@@ -32,4 +32,11 @@ public class DBController {
         List<Document> results = dbService.similaritySearch();
         return R.ok(results);
     }
+
+    @PostMapping("/loadMdToDB")
+    @Operation(summary = "加载md进数据库")
+    public R<List<Document>> loadMdToDd() {
+        List<Document> result = dbService.loadMdToDd();
+        return R.ok(result);
+    }
 }

@@ -1,6 +1,7 @@
 package com.huangge1199.aiagent.Service.impl;
 
 import com.huangge1199.aiagent.Service.DBService;
+import com.huangge1199.aiagent.rag.DocumentLoaderUtils;
 import jakarta.annotation.Resource;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -22,6 +23,9 @@ public class DBServiceImpl implements DBService {
     @Resource
     VectorStore pgVectorVectorStore;
 
+    @Resource
+    DocumentLoaderUtils documentLoaderUtils;
+
 
     @Override
     public List<Document> similaritySearch() {
@@ -33,5 +37,12 @@ public class DBServiceImpl implements DBService {
         pgVectorVectorStore.add(documents);
         // 相似度查询
         return pgVectorVectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
+    }
+
+    @Override
+    public List<Document> loadMdToDd() {
+        List<Document> documents = documentLoaderUtils.loadMarkdowns();
+        pgVectorVectorStore.add(documents);
+        return pgVectorVectorStore.similaritySearch(SearchRequest.builder().topK(5).build());
     }
 }

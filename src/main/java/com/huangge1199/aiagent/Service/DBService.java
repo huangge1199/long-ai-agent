@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface DBService {
     List<Document> similaritySearch();
+
+    List<Document> loadMdToDd();
 }

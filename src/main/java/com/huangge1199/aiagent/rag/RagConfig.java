@@ -1,6 +1,5 @@
 package com.huangge1199.aiagent.rag;
 
-import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,15 +12,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RagConfig {
-
-    @Resource
-    private DocumentLoaderUtils documentLoaderUtils;
-
-    @Resource
-    private MyTokenTextSplitter myTokenTextSplitter;
-
-    @Resource
-    private MyKeywordEnricher myKeywordEnricher;
 
     @Bean
     ChatClient chatClient(ChatClient.Builder builder) {
