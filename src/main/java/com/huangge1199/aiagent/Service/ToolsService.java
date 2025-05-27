@@ -1,0 +1,11 @@
+package com.huangge1199.aiagent.Service;
+
+/**
+ * ToolsService
+ *
+ * @author huangge1199
+ * @since 2025/5/27 15:06:53
+ */
+public interface ToolsService {
+    String getWeather(String question);
+}
