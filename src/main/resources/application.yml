@@ -12,6 +12,12 @@ spring:
       base-url: http://192.168.188.2:11435
       chat:
         model: gemma3:1b
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1536
+        max-document-batch-size: 10000
 server:
   port: 8123
   servlet:
