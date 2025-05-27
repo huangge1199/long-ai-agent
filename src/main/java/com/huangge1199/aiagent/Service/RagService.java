@@ -26,4 +26,6 @@ public interface RagService {
     String advancedAdvisor(String question);
 
     String documentSelection();
+
+    String queryTransformer();
 }

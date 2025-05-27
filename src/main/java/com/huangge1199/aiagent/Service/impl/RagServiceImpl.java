@@ -270,6 +270,23 @@ public class RagServiceImpl implements RagService {
                 .content();
     }
 
+    @Override
+    public String queryTransformer() {
+        ChatClient.Builder builder = ChatClient.builder(ollamaChatModel);
+        Query query = Query.builder()
+                .text("编程导航有啥内容？")
+                .history(new UserMessage("谁是程序员鱼皮？"),
+                        new AssistantMessage("编程导航的创始人 codefather.cn"))
+                .build();
+
+        QueryTransformer queryTransformer = CompressionQueryTransformer.builder()
+                .chatClientBuilder(builder)
+                .build();
+
+        return queryTransformer.transform(query).text();
+
+    }
+
     private static FilterExpressionBuilder.Op getOp() {
         var b = new FilterExpressionBuilder();
         // 筛选2023年的案例

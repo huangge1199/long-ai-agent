@@ -82,4 +82,11 @@ public class RagController {
         String queryList = ragService.documentSelection();
         return R.ok(queryList);
     }
+
+    @PostMapping("/queryTransformer")
+    @Operation(summary = "查询压缩")
+    public R<String> queryTransformer() {
+        String queryList = ragService.queryTransformer();
+        return R.ok(queryList);
+    }
 }
