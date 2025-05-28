@@ -2,10 +2,7 @@ package com.huangge1199.aiagent.Service.impl;
 
 import com.huangge1199.aiagent.Service.ToolsService;
 import com.huangge1199.aiagent.config.MyLoggerAdvisor;
-import com.huangge1199.aiagent.tools.FileTool;
-import com.huangge1199.aiagent.tools.WeatherTool;
-import com.huangge1199.aiagent.tools.WebScrapTool;
-import com.huangge1199.aiagent.tools.WebSearchTool;
+import com.huangge1199.aiagent.tools.*;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.ollama.OllamaChatModel;
@@ -70,5 +67,11 @@ public class ToolsServiceImpl implements ToolsService {
     public List<String> webScrap(String url) {
         WebScrapTool webScrapTool = new WebScrapTool();
         return List.of(webScrapTool.scrapeWebPage(url).split(","));
+    }
+
+    @Override
+    public String terminalTool(String command) {
+        TerminalTool terminalTool = new TerminalTool();
+        return terminalTool.executeTerminalCommand(command);
     }
 }

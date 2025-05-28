@@ -78,4 +78,12 @@ public class ToolController {
         List<String> result = toolsService.webScrap(question);
         return R.ok(result);
     }
+
+    @PostMapping("/terminalTool")
+    @Operation(summary = "终端操作")
+    public R<String> terminalTool(@RequestBody String command) {
+        CheckUtils.checkEmpty(command, "命令");
+        String result = toolsService.terminalTool(command);
+        return R.ok(result);
+    }
 }

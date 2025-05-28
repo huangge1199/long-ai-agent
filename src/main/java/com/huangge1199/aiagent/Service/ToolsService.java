@@ -20,4 +20,6 @@ public interface ToolsService {
     List<String> webSearch(String question);
 
     List<String> webScrap(String question);
+
+    String terminalTool(String command);
 }
