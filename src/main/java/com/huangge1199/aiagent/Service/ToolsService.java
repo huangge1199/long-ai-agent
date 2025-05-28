@@ -24,4 +24,6 @@ public interface ToolsService {
     String terminalTool(String command);
 
     void downloadTool(String url, String name);
+
+    void pdfTool(String name, String context);
 }

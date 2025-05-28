@@ -97,4 +97,15 @@ public class ToolController {
         toolsService.downloadTool(url, name);
         return R.ok();
     }
+
+    @PostMapping("/pdfTool")
+    @Operation(summary = "PDF生成")
+    public R<?> pdfTool(@RequestBody JSONObject params) {
+        String context = params.getStr("context");
+        String name = params.getStr("name");
+        CheckUtils.checkEmpty(context, "内容");
+        CheckUtils.checkEmpty(name, "文件名");
+        toolsService.pdfTool(name, context);
+        return R.ok();
+    }
 }

@@ -9,7 +9,6 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,5 +78,11 @@ public class ToolsServiceImpl implements ToolsService {
     public void downloadTool(String url, String name) {
         DownloadTool downloadTool = new DownloadTool();
         downloadTool.downloadResource(url, name);
+    }
+
+    @Override
+    public void pdfTool(String name, String context) {
+        PDFGenerationTool pdfTool = new PDFGenerationTool();
+        pdfTool.generatePDF(name, context);
     }
 }
