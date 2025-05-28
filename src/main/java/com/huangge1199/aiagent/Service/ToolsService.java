@@ -18,4 +18,6 @@ public interface ToolsService {
     String aiWriteFile(String question);
 
     List<String> webSearch(String question);
+
+    List<String> webScrap(String question);
 }

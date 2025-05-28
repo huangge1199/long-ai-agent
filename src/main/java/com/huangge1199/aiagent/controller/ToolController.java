@@ -70,4 +70,12 @@ public class ToolController {
         List<String> result = toolsService.webSearch(question);
         return R.ok(result);
     }
+
+    @PostMapping("/webScrap")
+    @Operation(summary = "网页抓取")
+    public R<List<String>> webScrap(@RequestBody String question) {
+        CheckUtils.checkEmpty(question, "问题");
+        List<String> result = toolsService.webScrap(question);
+        return R.ok(result);
+    }
 }

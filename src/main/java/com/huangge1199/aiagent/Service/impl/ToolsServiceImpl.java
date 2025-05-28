@@ -4,6 +4,7 @@ import com.huangge1199.aiagent.Service.ToolsService;
 import com.huangge1199.aiagent.config.MyLoggerAdvisor;
 import com.huangge1199.aiagent.tools.FileTool;
 import com.huangge1199.aiagent.tools.WeatherTool;
+import com.huangge1199.aiagent.tools.WebScrapTool;
 import com.huangge1199.aiagent.tools.WebSearchTool;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
@@ -63,5 +64,11 @@ public class ToolsServiceImpl implements ToolsService {
     public List<String> webSearch(String question) {
         WebSearchTool webSearchTool = new WebSearchTool(searchApiKey);
         return List.of(webSearchTool.searchWeb(question).split(","));
+    }
+
+    @Override
+    public List<String> webScrap(String url) {
+        WebScrapTool webScrapTool = new WebScrapTool();
+        return List.of(webScrapTool.scrapeWebPage(url).split(","));
     }
 }
