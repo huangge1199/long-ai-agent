@@ -41,4 +41,13 @@ public class ToolsServiceImpl implements ToolsService {
         FileTool fileTool = new FileTool();
         return fileTool.readFile(name);
     }
+
+    @Override
+    public String aiWriteFile(String question) {
+        return ChatClient.create(ollamaChatModel)
+                .prompt(question)
+                .advisors(new MyLoggerAdvisor())
+                .tools(new FileTool())
+                .call().content();
+    }
 }

@@ -12,4 +12,6 @@ public interface ToolsService {
     String writeFileTest(String context, String name);
 
     String readFileTest(String name);
+
+    String aiWriteFile(String question);
 }

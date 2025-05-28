@@ -30,9 +30,9 @@ public class ToolController {
     @Resource
     private ToolsService toolsService;
 
-    @PostMapping("/getWeather")
-    @Operation(summary = "获取天气")
-    public R<String> getWeather(@RequestBody String question) {
+    @PostMapping("/getAiWeather")
+    @Operation(summary = "AI获取天气")
+    public R<String> getAiWeather(@RequestBody String question) {
         String result = toolsService.getWeather(question);
         return R.ok(result);
     }
@@ -54,6 +54,14 @@ public class ToolController {
         String name = params.getStr("name");
         CheckUtils.checkEmpty(name, "文件名");
         String result = toolsService.readFileTest(name);
+        return R.ok(result);
+    }
+
+    @PostMapping("/aiWriteFile")
+    @Operation(summary = "AI写文件")
+    public R<String> aiWriteFile(@RequestBody String question) {
+        CheckUtils.checkEmpty(question, "问题");
+        String result = toolsService.aiWriteFile(question);
         return R.ok(result);
     }
 }
