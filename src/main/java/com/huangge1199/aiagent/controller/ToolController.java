@@ -1,7 +1,10 @@
 package com.huangge1199.aiagent.controller;
 
+import cn.hutool.json.JSONObject;
+import com.alibaba.cloud.nacos.utils.StringUtils;
 import com.huangge1199.aiagent.Service.ToolsService;
 import com.huangge1199.aiagent.common.R;
+import com.huangge1199.aiagent.util.CheckUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -31,6 +34,26 @@ public class ToolController {
     @Operation(summary = "获取天气")
     public R<String> getWeather(@RequestBody String question) {
         String result = toolsService.getWeather(question);
+        return R.ok(result);
+    }
+
+    @PostMapping("/writeFile")
+    @Operation(summary = "写文件测试")
+    public R<?> writeFile(@RequestBody JSONObject params) {
+        String context = params.getStr("context");
+        String name = params.getStr("name");
+        CheckUtils.checkEmpty(context, "内容");
+        CheckUtils.checkEmpty(name, "文件名");
+        String result = toolsService.writeFileTest(context, name);
+        return R.ok(result);
+    }
+
+    @PostMapping("/readFile")
+    @Operation(summary = "读文件测试")
+    public R<?> readFile(@RequestBody JSONObject params) {
+        String name = params.getStr("name");
+        CheckUtils.checkEmpty(name, "文件名");
+        String result = toolsService.readFileTest(name);
         return R.ok(result);
     }
 }

@@ -8,4 +8,8 @@ package com.huangge1199.aiagent.Service;
  */
 public interface ToolsService {
     String getWeather(String question);
+
+    String writeFileTest(String context, String name);
+
+    String readFileTest(String name);
 }
