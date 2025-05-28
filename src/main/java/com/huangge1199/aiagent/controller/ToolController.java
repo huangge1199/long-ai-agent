@@ -1,14 +1,12 @@
 package com.huangge1199.aiagent.controller;
 
 import cn.hutool.json.JSONObject;
-import com.alibaba.cloud.nacos.utils.StringUtils;
 import com.huangge1199.aiagent.Service.ToolsService;
 import com.huangge1199.aiagent.common.R;
 import com.huangge1199.aiagent.util.CheckUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.ai.document.Document;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,6 +60,14 @@ public class ToolController {
     public R<String> aiWriteFile(@RequestBody String question) {
         CheckUtils.checkEmpty(question, "问题");
         String result = toolsService.aiWriteFile(question);
+        return R.ok(result);
+    }
+
+    @PostMapping("/webSearch")
+    @Operation(summary = "联网搜索")
+    public R<List<String>> webSearch(@RequestBody String question) {
+        CheckUtils.checkEmpty(question, "问题");
+        List<String> result = toolsService.webSearch(question);
         return R.ok(result);
     }
 }

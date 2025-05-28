@@ -4,10 +4,15 @@ import com.huangge1199.aiagent.Service.ToolsService;
 import com.huangge1199.aiagent.config.MyLoggerAdvisor;
 import com.huangge1199.aiagent.tools.FileTool;
 import com.huangge1199.aiagent.tools.WeatherTool;
+import com.huangge1199.aiagent.tools.WebSearchTool;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ToolsServiceImpl
@@ -20,6 +25,9 @@ public class ToolsServiceImpl implements ToolsService {
 
     @Resource
     private OllamaChatModel ollamaChatModel;
+
+    @Value("${search-api.api-key}")
+    private String searchApiKey;
 
     @Override
     public String getWeather(String question) {
@@ -49,5 +57,11 @@ public class ToolsServiceImpl implements ToolsService {
                 .advisors(new MyLoggerAdvisor())
                 .tools(new FileTool())
                 .call().content();
+    }
+
+    @Override
+    public List<String> webSearch(String question) {
+        WebSearchTool webSearchTool = new WebSearchTool(searchApiKey);
+        return List.of(webSearchTool.searchWeb(question).split(","));
     }
 }

@@ -1,5 +1,7 @@
 package com.huangge1199.aiagent.Service;
 
+import java.util.List;
+
 /**
  * ToolsService
  *
@@ -14,4 +16,6 @@ public interface ToolsService {
     String readFileTest(String name);
 
     String aiWriteFile(String question);
+
+    List<String> webSearch(String question);
 }
