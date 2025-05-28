@@ -74,4 +74,10 @@ public class ToolsServiceImpl implements ToolsService {
         TerminalTool terminalTool = new TerminalTool();
         return terminalTool.executeTerminalCommand(command);
     }
+
+    @Override
+    public void downloadTool(String url, String name) {
+        DownloadTool downloadTool = new DownloadTool();
+        downloadTool.downloadResource(url, name);
+    }
 }

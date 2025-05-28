@@ -86,4 +86,15 @@ public class ToolController {
         String result = toolsService.terminalTool(command);
         return R.ok(result);
     }
+
+    @PostMapping("/downloadTool")
+    @Operation(summary = "资源下载")
+    public R<?> downloadTool(@RequestBody JSONObject params) {
+        String url = params.getStr("url");
+        String name = params.getStr("name");
+        CheckUtils.checkEmpty(url, "url地址");
+        CheckUtils.checkEmpty(name, "文件名");
+        toolsService.downloadTool(url, name);
+        return R.ok();
+    }
 }

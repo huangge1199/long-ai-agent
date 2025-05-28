@@ -22,4 +22,6 @@ public interface ToolsService {
     List<String> webScrap(String question);
 
     String terminalTool(String command);
+
+    void downloadTool(String url, String name);
 }
