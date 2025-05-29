@@ -1,12 +1,11 @@
 package com.huangge1199.aiagent.tools;
 
 import cn.hutool.core.io.FileUtil;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 
@@ -18,12 +17,14 @@ import java.io.IOException;
  * @author huangge1199
  * @since 2025/5/28 16:23:46
  */
+@Slf4j
 public class PDFGenerationTool {
 
     @Tool(description = "Generate a PDF file with given content")
     public String generatePDF(
             @ToolParam(description = "Name of the file to save the generated PDF") String fileName,
             @ToolParam(description = "Content to be included in the PDF") String content) {
+        log.info("Generate PDF file with given content");
         String fileDir = FileConstant.FILE_SAVE_DIR + "/pdf";
         String filePath = fileDir + "/" + fileName;
         try {
@@ -46,6 +47,7 @@ public class PDFGenerationTool {
                 // 添加段落并关闭文档
                 document.add(paragraph);
             }
+            log.info("PDF generated successfully to: {}", filePath);
             return "PDF generated successfully to: " + filePath;
         } catch (IOException e) {
             return "Error generating PDF: " + e.getMessage();

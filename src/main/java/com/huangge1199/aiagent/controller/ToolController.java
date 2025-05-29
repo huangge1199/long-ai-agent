@@ -7,6 +7,7 @@ import com.huangge1199.aiagent.util.CheckUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,5 +108,14 @@ public class ToolController {
         CheckUtils.checkEmpty(name, "文件名");
         toolsService.pdfTool(name, context);
         return R.ok();
+    }
+
+    @PostMapping("/doChatWithTools")
+    @Operation(summary = "集中注册")
+    public R<String> doChatWithTools(String question) {
+        CheckUtils.checkEmpty(question, "问题");
+        String result = toolsService.doChatWithTools(question);
+        return R.ok(result);
+
     }
 }

@@ -26,4 +26,6 @@ public interface ToolsService {
     void downloadTool(String url, String name);
 
     void pdfTool(String name, String context);
+
+    String doChatWithTools(String question);
 }

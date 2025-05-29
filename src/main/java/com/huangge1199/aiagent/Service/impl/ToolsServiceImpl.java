@@ -5,7 +5,9 @@ import com.huangge1199.aiagent.config.MyLoggerAdvisor;
 import com.huangge1199.aiagent.tools.*;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.tool.ToolCallback;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class ToolsServiceImpl implements ToolsService {
     @Value("${search-api.api-key}")
     private String searchApiKey;
 
+    @Resource
+    private ToolCallback[] allTools;
+
     @Override
     public String getWeather(String question) {
         return ChatClient.create(ollamaChatModel)
@@ -38,7 +43,7 @@ public class ToolsServiceImpl implements ToolsService {
     @Override
     public String writeFileTest(String context, String name) {
         FileTool fileTool = new FileTool();
-        return fileTool.writeFile(name,context);
+        return fileTool.writeFile(name, context);
     }
 
     @Override
@@ -84,5 +89,19 @@ public class ToolsServiceImpl implements ToolsService {
     public void pdfTool(String name, String context) {
         PDFGenerationTool pdfTool = new PDFGenerationTool();
         pdfTool.generatePDF(name, context);
+    }
+
+    @Override
+    public String doChatWithTools(String question) {
+        ChatResponse chatResponse = ChatClient.create(ollamaChatModel)
+                .prompt()
+                .user(question)
+                // 开启日志，便于观察效果
+                .advisors(new MyLoggerAdvisor())
+                .tools(allTools)
+                .call()
+                .chatResponse();
+        assert chatResponse != null;
+        return chatResponse.getResult().getOutput().getText();
     }
 }

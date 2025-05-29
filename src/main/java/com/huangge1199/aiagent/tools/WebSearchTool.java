@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * @author huangge1199
  * @since 2025/5/28 11:00:28
  */
+@Slf4j
 public class WebSearchTool {
 
     // SearchAPI 的搜索接口地址
@@ -32,6 +34,7 @@ public class WebSearchTool {
     @Tool(description = "Search for information from Baidu Search Engine")
     public String searchWeb(
             @ToolParam(description = "Search query keyword") String query) {
+        log.info("Search query keyword: {}", query);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("q", query);
         paramMap.put("api_key", apiKey);
@@ -46,7 +49,7 @@ public class WebSearchTool {
             // 拼接搜索结果为字符串
             return objects.stream().map(obj -> {
                 JSONObject tmpJsonObject = (JSONObject) obj;
-                return tmpJsonObject.get("title").toString();
+                return tmpJsonObject.toString();
             }).collect(Collectors.joining(","));
         } catch (Exception e) {
             return "Error searching Baidu: " + e.getMessage();
