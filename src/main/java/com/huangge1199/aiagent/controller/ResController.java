@@ -1,10 +1,13 @@
 package com.huangge1199.aiagent.controller;
 
 import com.huangge1199.aiagent.common.R;
+import com.huangge1199.aiagent.config.MyLoggerAdvisor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +36,11 @@ public class ResController {
 
     record ActorFilms(String actor, List<String> movies) {
     }
+
+    // AI 调用 MCP 服务
+
+    @Resource
+    private ToolCallbackProvider toolCallbackProvider;
 
     @PostMapping("/chatRes")
     @Operation(summary = "返回 ChatResponse")
@@ -84,5 +92,20 @@ public class ResController {
                 .stream()
                 .chatResponse();
         return R.ok(output);
+    }
+
+    @PostMapping("/doChatWithMcp")
+    @Operation(summary = "使用mcp返回会话")
+    public R<String> doChatWithMcp(@RequestBody String question) {
+        ChatResponse chatResponse = chatClient
+                .prompt()
+                .user(question)
+                // 开启日志，便于观察效果
+                .advisors(new MyLoggerAdvisor())
+                .tools(toolCallbackProvider)
+                .call()
+                .chatResponse();
+        String content = chatResponse.getResult().getOutput().getText();
+        return R.ok(content);
     }
 }
