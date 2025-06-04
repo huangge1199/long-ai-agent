@@ -9,7 +9,7 @@ spring:
         options:
           model: qwen-plus
     ollama:
-      base-url: http://192.168.1.9:11435
+      base-url: http://192.168.188.2:11435
       chat:
         model: llama3.2:3b
     vectorstore:
