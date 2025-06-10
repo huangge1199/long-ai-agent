@@ -20,15 +20,6 @@
     <developers>
         <developer/>
     </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
-    <modules>
-        <module>long-image-search-mcp-server</module>
-    </modules>
     <properties>
         <java.version>21</java.version>
     </properties>

@@ -1,5 +1,6 @@
 package com.huangge1199.aiagent.controller;
 
+import com.huangge1199.aiagent.agent.LongManus;
 import com.huangge1199.aiagent.common.R;
 import com.huangge1199.aiagent.config.MyLoggerAdvisor;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,9 @@ public class ResController {
 
     @Resource
     private ToolCallbackProvider toolCallbackProvider;
+
+    @Resource
+    private LongManus longManus;
 
     @PostMapping("/chatRes")
     @Operation(summary = "返回 ChatResponse")
@@ -106,6 +110,13 @@ public class ResController {
                 .call()
                 .chatResponse();
         String content = chatResponse.getResult().getOutput().getText();
+        return R.ok(content);
+    }
+
+    @PostMapping("/manus")
+    @Operation(summary = "智能体测试")
+    public R<String> manus(@RequestBody String question) {
+        String content = longManus.run(question);
         return R.ok(content);
     }
 }
